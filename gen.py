@@ -2,9 +2,16 @@ import os
 import sys
 import pathlib
 
+split_args = sys.argv[2].split("/")
+
+massaged_args = [
+  '/'.join([sys.argv[1], *split_args[:-1]]),
+  split_args[-1]
+]
+
 cur_work_dir = os.getcwd()
 
-cur_given_dir = sys.argv[1]
+cur_given_dir = massaged_args[0]
 
 cur_dirs = [ "src", "test" ]
 
@@ -14,7 +21,7 @@ for cur_dir in cur_dirs:
 
   pathlib.Path(tmp_dir).mkdir(parents=True, exist_ok=True)
 
-  cur_file = os.path.join(tmp_dir, sys.argv[2])
+  cur_file = os.path.join(tmp_dir, massaged_args[1])
 
   if cur_dir == "test":
     cur_file += "_test"
